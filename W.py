@@ -8,6 +8,8 @@ import pandas as pd
 # Declare filepaths to read and write to
 
 filepath = 'C:/Users/User/Documents/Data/data.csv'
+revised_data = 'C:/Users/User/Documents/Data/data_no_islands.csv'
+W_ref = 'C:/Users/User/Documents/Data/W_reference.csv'
 output = 'C:/Users/User/Documents/Data/W.csv'
 
 # Read the data into a dataframe
@@ -23,7 +25,7 @@ nations = data.Country.unique()
 W = np.zeros([len(nations),len(nations)])
 
 for nation in nations:
-    idx = nations.index(nation)
+    idx = np.where(nations == nation)[0][0]
     print(nation)
     accepted = False
     while accepted != True:
@@ -37,7 +39,7 @@ for nation in nations:
         while complete == False:
             try:
                 neighbor = input('Input next neighbor: ')
-                check = nations.index(neighbor)
+                check = np.where(nations == neighbor)[0][0]
                 print(check)
                 complete = True
             except:
@@ -50,24 +52,57 @@ for i in range(len(W)):
     for j in range(len(W[i])):
         if W[i][j] > 0:
             W[j][i] = W[i][j]
-            
+         
+# Write W to file for future reference
+
 W = pd.DataFrame(W)
+W.to_csv(W_ref, index = False, header = False)
 
 # Creating a spatial weight matrix for the full panel data set
 
 W2 = np.zeros((len(data.Country),len(data.Country)))
-W = np.ceil(W)
 W = W.values
 for i in range(len(data.Country)):
-    id1 = nations.index(data.Country[i])
+    id1 = np.where(nations == data.Country[i])[0][0]
     for j in range(len(data.Country)):
         if data.Year[i] == data.Year[j]:
-            id2 = nations.index(data.Country[j])
+            id2 = np.where(nations == data.Country[j])[0][0]
             W2[i,j] = W[id1,id2]
-    s = sum(W2[i,:])
-    if s > 0:
-        W2[i,:] = W2[i,:] / s
+
+# create a reference indicating if the entries have neighbors for that year
+
+ref = sum(W2)
         
-SW = pd.DataFrame(W2)
+# remove appropriate entries from full data set (those with row sum == 0 in W2)
+
+df = pd.DataFrame(columns = data.columns)
+
+for i in range(len(ref)):
+    if ref[i] > 0:
+        df = pd.concat([df, data.iloc[[i]]], axis = 0)
+
+df = df.reset_index(drop = True)
+
+# Write new dataframe to csv
+
+df.to_csv(revised_data, index = False)
+
+# Create final spatial weights matrix
+
+SW = np.zeros((len(df.Country),len(df.Country)))
+for i in range(len(df.Country)):
+    id1 = np.where(nations == df.Country[i])[0][0]
+    for j in range(len(df.Country)):
+        id2 = np.where(nations == df.Country[j])[0][0]
+        if df.Year[i] == df.Year[j]:
+            SW[i,j] = W[id1][id2]
+
+# Normalize the spatial weights matrix
+
+for i in range(len(SW)):
+    s = sum(SW[i,:])
+    SW[i,:] = SW[i,:] / s
+
+SW = pd.DataFrame(SW)
 SW.to_csv(output, index = False, header = False)
 
