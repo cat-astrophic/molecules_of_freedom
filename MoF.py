@@ -152,25 +152,51 @@ w.transform = 'r'
 
 sperror1 = pysal.model.spreg.ML_Error(Ysp.values[:,None], WXsp1.values, w = w, name_x = WXsp1.columns.tolist(), name_y = 'CO2 Intensity')
 print(sperror1.summary)
-file = open('C:/Users/User/Documents/Data/Spatial_Outputs/sperror1.txt', 'w')
+file = open('C:/Users/User/Documents/Data/MoF/sperror1.txt', 'w')
 file.write(sperror1.summary)
 file.close()
 
 sperror2 = pysal.model.spreg.ML_Error(Ysp.values[:,None], WXsp2.values, w = w, name_x = WXsp2.columns.tolist(), name_y = 'CO2 Intensity')
 print(sperror2.summary)
-file = open('C:/Users/User/Documents/Data/Spatial_Outputs/sperror2.txt', 'w')
+file = open('C:/Users/User/Documents/Data/MoF/sperror2.txt', 'w')
 file.write(sperror2.summary)
 file.close()
 
 sperror3 = pysal.model.spreg.ML_Error(Ysp.values[:,None], WXsp3.values, w = w, name_x = WXsp3.columns.tolist(), name_y = 'CO2 Intensity')
 print(sperror3.summary)
-file = open('C:/Users/User/Documents/Data/Spatial_Outputs/sperror3.txt', 'w')
+file = open('C:/Users/User/Documents/Data/MoF/sperror3.txt', 'w')
 file.write(sperror3.summary)
 file.close()
 
 sperror4 = pysal.model.spreg.ML_Error(Ysp.values[:,None], WXsp4.values, w = w, name_x = WXsp4.columns.tolist(), name_y = 'CO2 Intensity')
 print(sperror4.summary)
-file = open('C:/Users/User/Documents/Data/Spatial_Outputs/sperror4.txt', 'w')
+file = open('C:/Users/User/Documents/Data/MoF/sperror4.txt', 'w')
 file.write(sperror4.summary)
+file.close()
+
+# Running full spatial model in pysal
+
+sp1 = pysal.model.spreg.ML_Lag(Ysp.values[:,None], WXsp1.values, w = w, name_x = WXsp1.columns.tolist(), name_y = 'CO2 Intensity')
+print(sp1.summary)
+file = open('C:/Users/User/Documents/Data/MoF/sp1.txt', 'w')
+file.write(sp1.summary)
+file.close()
+
+sp2 = pysal.model.spreg.ML_Lag(Ysp.values[:,None], WXsp2.values, w = w, name_x = WXsp2.columns.tolist(), name_y = 'CO2 Intensity')
+print(sp2.summary)
+file = open('C:/Users/User/Documents/Data/MoF/sp2.txt', 'w')
+file.write(sp2.summary)
+file.close()
+
+sp3 = pysal.model.spreg.ML_Lag(Ysp.values[:,None], WXsp3.values, w = w, name_x = WXsp3.columns.tolist(), name_y = 'CO2 Intensity')
+print(sp3.summary)
+file = open('C:/Users/User/Documents/Data/MoF/sp3.txt', 'w')
+file.write(sp3.summary)
+file.close()
+
+sp4 = pysal.model.spreg.ML_Lag(Ysp.values[:,None], WXsp4.values, w = w, name_x = WXsp4.columns.tolist(), name_y = 'CO2 Intensity')
+print(sp4.summary)
+file = open('C:/Users/User/Documents/Data/MoF/sp4.txt', 'w')
+file.write(sp4.summary)
 file.close()
 
