@@ -25,6 +25,7 @@ shpdat = gpd.read_file(shpath)
 # Endogenous variables
 
 Y = spdata['Intensity']
+Y2 = spdata['CO2']
 
 # Exogenous variables
 
@@ -32,11 +33,15 @@ Y = spdata['Intensity']
 
 Xsp1 = spdata[['Intensity_Lag', 'GDP', 'Renewable Energy', 'Coal Rents', 'Oil Rents', 'Crude Price', 'R&D', 'Tariff Rate']]
 Xsp2 = spdata[['Intensity_Lag', 'GDP', 'Renewable Energy', 'Coal Rents', 'Oil Rents', 'Crude Price', 'R&D', 'Target Tariff']]
+Xsp3 = spdata[['CO2_Lag', 'GDP', 'Renewable Energy', 'Coal Rents', 'Oil Rents', 'Crude Price', 'R&D', 'Tariff Rate']]
+Xsp4 = spdata[['CO2_Lag', 'GDP', 'Renewable Energy', 'Coal Rents', 'Oil Rents', 'Crude Price', 'R&D', 'Target Tariff']]
 
 # Dataframes ready for baseline OLS regression
 
 X1 = stats.add_constant(Xsp1)
 X2 = stats.add_constant(Xsp2)
+X3 = stats.add_constant(Xsp2)
+X4 = stats.add_constant(Xsp4)
 
 # Running OLS regression models
 
@@ -52,6 +57,20 @@ results2 = model2.fit()
 print(results2.summary())
 file = open('C:/Users/User/Documents/Data/MoF/model2.txt', 'w')
 file.write(results2.summary().as_text())
+file.close()
+
+model3 = stats.OLS(Y2, X3)
+results3 = model3.fit()
+print(results3.summary())
+file = open('C:/Users/User/Documents/Data/MoF/model3.txt', 'w')
+file.write(results3.summary().as_text())
+file.close()
+
+model4 = stats.OLS(Y2, X4)
+results4 = model4.fit()
+print(results4.summary())
+file = open('C:/Users/User/Documents/Data/MoF/model4.txt', 'w')
+file.write(results4.summary().as_text())
 file.close()
 
 # Creating spatial weights matrix for spatial models
@@ -82,6 +101,18 @@ file = open('C:/Users/User/Documents/Data/MoF/splag2.txt', 'w')
 file.write(sp2.summary)
 file.close()
 
+sp3 = pysal.model.spreg.ML_Lag(Y2.values[:,None], Xsp3.values, w = w, name_x = Xsp3.columns.tolist(), name_y = 'CO2 per capita')
+print(sp3.summary)
+file = open('C:/Users/User/Documents/Data/MoF/splag3.txt', 'w')
+file.write(sp3.summary)
+file.close()
+
+sp4 = pysal.model.spreg.ML_Lag(Y2.values[:,None], Xsp4.values, w = w, name_x = Xsp4.columns.tolist(), name_y = 'CO2 per capita')
+print(sp4.summary)
+file = open('C:/Users/User/Documents/Data/MoF/splag4.txt', 'w')
+file.write(sp4.summary)
+file.close()
+
 # Creating choropleths for tariff rates and carbon intensities
 
 # Blending the data and shape files
@@ -92,9 +123,10 @@ merged = shpdat.set_index('COUNTRY').join(mapdat.set_index('Country'))
 # Creating a reference dictionary for looping choropleth creation and additional map parameters
 
 vals = [str(mapdat.columns[i]) for i in range(1,len(mapdat.columns))]
-titles = ['Carbon Intensities - 2012', 'Carbon Intensities - 1996', 'Mean Tariff Rates - 2012', 'Mean Tariff Rates - 1996']
+titles = ['Carbon Intensities - 2012', 'Carbon Intensities - 1996', 'Mean Tariff Rates - 2012', 'Mean Tariff Rates - 1996',
+          'CO2 Emissions per capita - 2012', 'CO2 Emissions per capita - 1996']
 dic = dict(zip(vals, titles))
-cols = ['Purples', 'Reds', 'Purples', 'Reds']
+cols = ['Purples', 'Reds', 'Purples', 'Reds', 'Purples', 'Reds']
 
 # Creating and saving the choropleths
 
