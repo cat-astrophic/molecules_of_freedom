@@ -40,7 +40,7 @@ Xsp4 = spdata[['CO2_Lag', 'GDP', 'Renewable Energy', 'Coal Rents', 'Oil Rents', 
 
 X1 = stats.add_constant(Xsp1)
 X2 = stats.add_constant(Xsp2)
-X3 = stats.add_constant(Xsp2)
+X3 = stats.add_constant(Xsp3)
 X4 = stats.add_constant(Xsp4)
 
 # Running OLS regression models
