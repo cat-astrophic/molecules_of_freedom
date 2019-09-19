@@ -1,3 +1,3 @@
 ## Description
 
-This repo contains all of the relevant files for a working paper on tariffs and carbon intensities. Included are two autoregressive models, two autoregressive spatial lag models, and the creation of four choropleths.
+This repo contains all of the relevant files for a working paper on the impact of tariffs on carbon intensities and co2 emissions. Included are four autoregressive models, four autoregressive spatial lag models, and the creation of six choropleths.
