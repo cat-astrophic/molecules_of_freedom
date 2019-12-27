@@ -14,11 +14,13 @@ spatial_filepath = 'C:/Users/User/Documents/Data/MOF.csv'
 sw_filepath = 'C:/Users/User/Documents/Data/MOF_W.csv'
 mapdata_filepath = 'C:/Users/User/Documents/Data/MoFmAp.csv'
 shpath = 'C:/Users/User/Documents/Data/countries.shp'
+plotsdatapath = 'C:/Users/User/Documents/Data/MoIplotsdata.csv'
 
 spdata = pd.read_csv(spatial_filepath)
 SW = pd.read_csv(sw_filepath, header = None)
 mapdat = pd.read_csv(mapdata_filepath)
 shpdat = gpd.read_file(shpath)
+plotsdata = pd.read_csv(plotsdatapath)
 
 # Creating dataframes for all regression models
 
@@ -140,4 +142,29 @@ for val, tit in dic.items():
     plotdata.plot(column = val, cmap = cols[idx], linewidth = 0.5, ax = ax, edgecolor = '0.8', legend = True)
     plt.title(tit, fontsize = 14, fontweight = 40)
     plt.savefig('C:/Users/User/Documents/Data/MoF/' + val + '.png')
+
+# Creating time series plots of CO2 intensities and CO2 emissions per capita for select countries
+
+plots = ['CO2', 'Intensity']
+nations = ['Canada', 'China', 'Russia', 'United Kingdom', 'United States']
+cm = plt.get_cmap('gist_rainbow')
+labels = ['CO2 Emissions (metric tons per capita)', 'Carbon Intensity (kg/USD)']
+titles = ['Trends in per capita CO2 emissions: 1996 - 2012', 'Trends in carbon intensities: 1996 - 2012']
+ylims = [[0,22],[0,2.5]]
+
+for plot in plots:
+    
+    plt.figure()
+    
+    for nation in nations:
+        
+        d = plotsdata[plotsdata['Country'] == nation]
+        plt.plot(d.Year, d[plot], label = nation, color = cm(nations.index(nation)/len(nations)))
+
+    plt.title(titles[plots.index(plot)], loc = 'center', fontsize = 12, fontweight = 40, color = 'black')
+    plt.ylim(ylims[plots.index(plot)])
+    plt.xlabel('Year')
+    plt.ylabel(labels[plots.index(plot)])
+    plt.legend(loc = 'upper center', bbox_to_anchor = (1.2, 0.8), shadow = True, ncol = 1)
+    plt.savefig('C:/Users/User/Documents/Data/MoF/' + plot + '.eps')
 
