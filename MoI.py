@@ -163,8 +163,7 @@ for plot in plots:
 
     plt.title(titles[plots.index(plot)], loc = 'center', fontsize = 12, fontweight = 40, color = 'black')
     plt.ylim(ylims[plots.index(plot)])
-    plt.xlabel('Year')
     plt.ylabel(labels[plots.index(plot)])
-    plt.legend(loc = 'upper center', bbox_to_anchor = (1.2, 0.8), shadow = True, ncol = 1)
-    plt.savefig('C:/Users/User/Documents/Data/MoF/' + plot + '.eps')
+    lgd = plt.legend(loc = 'upper center', bbox_to_anchor = (1.2, 0.8), shadow = True, ncol = 1)
+    plt.savefig('C:/Users/User/Documents/Data/MoF/' + plot + '.eps', bbox_extra_artists = (lgd,), bbox_inches = 'tight')
 
