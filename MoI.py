@@ -10,9 +10,9 @@ import matplotlib.pyplot as plt
 
 # Loading the data ses and storing it in a dataframe
 
-spatial_filepath = 'C:/Users/User/Documents/Data/MOF.csv'
-sw_filepath = 'C:/Users/User/Documents/Data/MOF_W.csv'
-mapdata_filepath = 'C:/Users/User/Documents/Data/MoFmAp.csv'
+spatial_filepath = 'C:/Users/User/Documents/Data/MOI.csv'
+sw_filepath = 'C:/Users/User/Documents/Data/MOF_I.csv'
+mapdata_filepath = 'C:/Users/User/Documents/Data/MoImap.csv'
 shpath = 'C:/Users/User/Documents/Data/countries.shp'
 plotsdatapath = 'C:/Users/User/Documents/Data/MoIplotsdata.csv'
 
