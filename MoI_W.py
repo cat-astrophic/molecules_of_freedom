@@ -1,4 +1,4 @@
-# Script to manually create a custom spatial weight matrix for a panel data set
+# Script to used to create the spatial weights matrix for the Molecules of Inefficiency paper
 
 # Import required modules
 
