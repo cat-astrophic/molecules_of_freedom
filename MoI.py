@@ -11,8 +11,8 @@ import matplotlib.pyplot as plt
 # Loading the data ses and storing it in a dataframe
 
 spatial_filepath = 'C:/Users/User/Documents/Data/MOI.csv'
-sw_filepath = 'C:/Users/User/Documents/Data/MOF_I.csv'
-mapdata_filepath = 'C:/Users/User/Documents/Data/MoImap.csv'
+sw_filepath = 'C:/Users/User/Documents/Data/MOI_W.csv'
+mapdata_filepath = 'C:/Users/User/Documents/Data/MoImAp.csv'
 shpath = 'C:/Users/User/Documents/Data/countries.shp'
 plotsdatapath = 'C:/Users/User/Documents/Data/MoIplotsdata.csv'
 
@@ -78,12 +78,19 @@ file.close()
 # Creating spatial weights matrix for spatial models
 
 neighbs = []
+
 for i in range(len(SW)):
+    
     row = []
+    
     for j in range(len(SW)):
+        
         if SW[i][j] > 0:
+            
             row.append(j)
+            
     neighbs.append(row)
+    
 w_keys = [i for i in range(len(SW))]
 w_d = dict(zip(w_keys, neighbs))
 w = pysal.lib.weights.W(w_d)
@@ -133,6 +140,7 @@ cols = ['Purples', 'Reds', 'Purples', 'Reds', 'Purples', 'Reds']
 # Creating and saving the choropleths
 
 for val, tit in dic.items():
+    
     print('Creating choropleth for ' + tit + '\n')
     idx = vals.index(val)
     fig, ax = plt.subplots(1, figsize = (12,6))
@@ -151,6 +159,7 @@ cm = plt.get_cmap('gist_rainbow')
 labels = ['CO2 Emissions (metric tons per capita)', 'Carbon Intensity (kg/USD)']
 titles = ['Trends in per capita CO2 emissions: 1996 - 2012', 'Trends in carbon intensities: 1996 - 2012']
 ylims = [[0,22],[0,2.5]]
+codes = ['-', '--', '-.', ':', 'D']
 
 for plot in plots:
     
@@ -159,7 +168,7 @@ for plot in plots:
     for nation in nations:
         
         d = plotsdata[plotsdata['Country'] == nation]
-        plt.plot(d.Year, d[plot], label = nation, color = cm(nations.index(nation)/len(nations)))
+        plt.plot(d.Year, d[plot], codes[nations.index(nation)], label = nation, color = cm(nations.index(nation)/len(nations)))
 
     plt.title(titles[plots.index(plot)], loc = 'center', fontsize = 12, fontweight = 40, color = 'black')
     plt.ylim(ylims[plots.index(plot)])
