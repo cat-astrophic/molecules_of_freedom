@@ -20,5 +20,5 @@ Cary, Michael. "Molecules of Inefficiency: How tariffs impact carbon intensities
 &nbsp;&nbsp;&nbsp;&nbsp;journal={Science of The Total Environment},\
 &nbsp;&nbsp;&nbsp;&nbsp;pages={136531},\
 &nbsp;&nbsp;&nbsp;&nbsp;year={2020},\
-&nbsp;&nbsp;&nbsp;&nbsp;publisher={Elsevier}
+&nbsp;&nbsp;&nbsp;&nbsp;publisher={Elsevier}\
 }
